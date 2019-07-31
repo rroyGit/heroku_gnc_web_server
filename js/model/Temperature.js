@@ -1,7 +1,7 @@
 const TelemetryData = require('./TelemetryData');
 
 class Temperature extends TelemetryData {
-    
+
     constructor(context, numSensors, numPreviousTimes) {
         super();
         [this.context, this.numSensors, this.numPreviousTimes] = [context, numSensors, numPreviousTimes];
@@ -12,7 +12,7 @@ class Temperature extends TelemetryData {
     }
 
     sendRequests (path) {
-        this.sendXMLRequests(`http://${path}:3002/temp/`);
+        this.sendXMLRequests(`${path}/temp/`);
     }
 
     changeAxisLabels () {
@@ -28,5 +28,3 @@ class Temperature extends TelemetryData {
 module.exports = Temperature;
 
 let context, numSensors, numPreviousTimes;
-
-

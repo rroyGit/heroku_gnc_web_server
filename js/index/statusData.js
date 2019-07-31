@@ -19,8 +19,13 @@ function init () {
     PATH = getCookie('hostName');
     PORT = getCookie('hostPort');
 
-    modelPageButton.href = PATH.includes('heroku') ?
-      `${PATH}/home/model` : `http://${PATH}:${PORT}/home/model`;
+    if (PATH.includes('heroku')) {
+      modelPageButton.href = `${PATH}/home/model`;
+      PATH = 'https://bing-gnc-service.herokuapp.com'
+    } else {
+      modelPageButton.href = `http://${PATH}:${PORT}/home/model`;
+      PATH = `http://${PATH}:${PORT}`;
+    }
 
     classes = [new Temperature(document, 'tempSensor', 2),
                 new Distance(document, 'distSensor', 2)];

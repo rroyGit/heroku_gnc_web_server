@@ -2,7 +2,7 @@
 const TelemetryData = require('./TelemetryData');
 
 class Distance extends TelemetryData {
-    
+
     constructor(context, numSensors, numPreviousTimes) {
         super();
         [this.context, this.numSensors, this.numPreviousTimes] = [context, numSensors, numPreviousTimes];
@@ -13,7 +13,7 @@ class Distance extends TelemetryData {
     }
 
     sendRequests (path) {
-        this.sendXMLRequests(`http://${path}:3002/dist/`);
+        this.sendXMLRequests(`${path}/dist/`);
     }
 
     changeAxisLabels () {
@@ -30,12 +30,11 @@ module.exports = Distance;
 
 let context, numSensors, numPreviousTimes;
 
-
 },{"./TelemetryData":3}],2:[function(require,module,exports){
 const TelemetryData = require('./TelemetryData');
 
 class Speed extends TelemetryData {
-    
+
     constructor(context, numSensors, numPreviousTimes) {
         super();
         [this.context, this.numSensors, this.numPreviousTimes] = [context, numSensors, numPreviousTimes];
@@ -46,7 +45,7 @@ class Speed extends TelemetryData {
     }
 
     sendRequests (path) {
-        this.sendXMLRequests(`http://${path}:3002/speed/`);
+        this.sendXMLRequests(`${path}/speed/`);
     }
 
     changeAxisLabels () {
@@ -62,7 +61,6 @@ class Speed extends TelemetryData {
 module.exports = Speed;
 
 let context, numSensors, numPreviousTimes;
-
 
 },{"./TelemetryData":3}],3:[function(require,module,exports){
 /*
@@ -286,7 +284,7 @@ const setSensorLines = (numSensors, chart, borderColors) => {
 const TelemetryData = require('./TelemetryData');
 
 class Temperature extends TelemetryData {
-    
+
     constructor(context, numSensors, numPreviousTimes) {
         super();
         [this.context, this.numSensors, this.numPreviousTimes] = [context, numSensors, numPreviousTimes];
@@ -297,7 +295,7 @@ class Temperature extends TelemetryData {
     }
 
     sendRequests (path) {
-        this.sendXMLRequests(`http://${path}:3002/temp/`);
+        this.sendXMLRequests(`${path}/temp/`);
     }
 
     changeAxisLabels () {
@@ -313,8 +311,6 @@ class Temperature extends TelemetryData {
 module.exports = Temperature;
 
 let context, numSensors, numPreviousTimes;
-
-
 
 },{"./TelemetryData":3}],5:[function(require,module,exports){
 const Temperature = require('./Temperature');
@@ -342,6 +338,13 @@ var sensorClass = null;
 
 function init () {
     PATH = getCookie('hostName');
+    PORT = getCookie('hostPort');
+
+    if (PATH.includes('heroku')) {
+      PATH = 'https://bing-gnc-service.herokuapp.com'
+    } else {
+      PATH = `http://${PATH}:${PORT}`;
+    }
 
     startButton.addEventListener("mouseup", () => {startAction(sensorClass, startButton);} );
     stopButton.addEventListener("mouseup", () => {stopAction(stopButton);} );

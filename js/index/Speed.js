@@ -1,7 +1,7 @@
 const TelemetryData = require('./TelemetryData');
 
 class Speed extends TelemetryData {
-    
+
     constructor(document, prefix, numSensors) {
         super();
         [this.document, this.numSensors, this.prefix] = [document, numSensors, prefix];
@@ -13,7 +13,7 @@ class Speed extends TelemetryData {
     }
 
     apply (path) {
-        this.sendXMLRequests(`http://${path}:3002/speed/`);
+        this.sendXMLRequests(`${path}/speed/`);
     }
 }
 

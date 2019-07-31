@@ -2,7 +2,7 @@
 const TelemetryData = require('./TelemetryData');
 
 class Distance extends TelemetryData {
-    
+
     constructor(document, prefix, numSensors) {
         super();
         [this.document, this.numSensors, this.prefix] = [document, numSensors, prefix];
@@ -14,18 +14,19 @@ class Distance extends TelemetryData {
     }
 
     apply (path) {
-        this.sendXMLRequests(`http://${path}:3002/dist/`);
+        this.sendXMLRequests(`${path}/dist/`);
     }
 }
 
 module.exports = Distance;
 
 let document, numSensors, prefix;
+
 },{"./TelemetryData":3}],2:[function(require,module,exports){
 const TelemetryData = require('./TelemetryData');
 
 class Speed extends TelemetryData {
-    
+
     constructor(document, prefix, numSensors) {
         super();
         [this.document, this.numSensors, this.prefix] = [document, numSensors, prefix];
@@ -37,13 +38,14 @@ class Speed extends TelemetryData {
     }
 
     apply (path) {
-        this.sendXMLRequests(`http://${path}:3002/speed/`);
+        this.sendXMLRequests(`${path}/speed/`);
     }
 }
 
 module.exports = Speed;
 
 let document, numSensors, prefix;
+
 },{"./TelemetryData":3}],3:[function(require,module,exports){
 /*
     Abstract class for the many types of telemetry data enclosing similar functionality
@@ -162,7 +164,7 @@ const getNumber = (data) => {
 const TelemetryData = require('./TelemetryData');
 
 class Temperature extends TelemetryData {
-    
+
     constructor(document, prefix, numSensors) {
         super();
         [this.document, this.numSensors, this.prefix] = [document, numSensors, prefix];
@@ -174,13 +176,14 @@ class Temperature extends TelemetryData {
     }
 
     apply (path) {
-        this.sendXMLRequests(`http://${path}:3002/temp/`);
+        this.sendXMLRequests(`${path}/temp/`);
     }
 }
 
 module.exports = Temperature;
 
 let document, numSensors, prefix;
+
 },{"./TelemetryData":3}],5:[function(require,module,exports){
 const Temperature = require('./Temperature');
 const Distance = require('./Distance');
@@ -203,8 +206,13 @@ function init () {
     PATH = getCookie('hostName');
     PORT = getCookie('hostPort');
 
-    modelPageButton.href = PATH.includes('heroku') ?
-      `${PATH}/home/model` : `http://${PATH}:${PORT}/home/model`;
+    if (PATH.includes('heroku')) {
+      modelPageButton.href = `${PATH}/home/model`;
+      PATH = 'https://bing-gnc-service.herokuapp.com'
+    } else {
+      modelPageButton.href = `http://${PATH}:${PORT}/home/model`;
+      PATH = `http://${PATH}:${PORT}`;
+    }
 
     classes = [new Temperature(document, 'tempSensor', 2),
                 new Distance(document, 'distSensor', 2)];

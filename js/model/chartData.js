@@ -23,6 +23,13 @@ var sensorClass = null;
 
 function init () {
     PATH = getCookie('hostName');
+    PORT = getCookie('hostPort');
+
+    if (PATH.includes('heroku')) {
+      PATH = 'https://bing-gnc-service.herokuapp.com'
+    } else {
+      PATH = `http://${PATH}:${PORT}`;
+    }
 
     startButton.addEventListener("mouseup", () => {startAction(sensorClass, startButton);} );
     stopButton.addEventListener("mouseup", () => {stopAction(stopButton);} );

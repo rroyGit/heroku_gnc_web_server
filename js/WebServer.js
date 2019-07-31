@@ -181,11 +181,9 @@ function getSpeed(app) {
 }
 
 function getIPAddr(app) {
-  let hostName = app.locals.base;
-  hostName = hostName.includes('heroku') ?
-    hostName : 'localhost';
+  let hostName = app.locals.model.baseUrl;
 
-    return hostName;
+  return hostName.includes('heroku') ? hostName : 'localhost';
 }
 //action routines for routes + any auxiliary functions.
 

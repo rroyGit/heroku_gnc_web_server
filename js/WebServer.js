@@ -185,13 +185,7 @@ function getIPAddr(app) {
   hostName = hostName.includes('heroku') ?
     hostName : 'localhost';
 
-  try {
-    hostName = fs.readFileSync('IP_Addr.txt');
-  } catch (err) {
-    console.log(err);
-  } finally {
     return hostName;
-  }
 }
 //action routines for routes + any auxiliary functions.
 
